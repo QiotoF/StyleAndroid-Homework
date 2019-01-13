@@ -6,9 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.data.PostModel;
+import com.pericle.styleandroid_homework.presentation.presenter.MainPresenter;
+import com.pericle.styleandroid_homework.presentation.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MvpActivity implements MainView {
+
+    @InjectPresenter
+    MainPresenter mPresenter;
 
     private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
