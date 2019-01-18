@@ -1,6 +1,5 @@
 package com.pericle.styleandroid_homework.presentation;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +7,10 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.R;
-import com.pericle.styleandroid_homework.data.PostModel;
+import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.presentation.presenter.MainPresenter;
 import com.pericle.styleandroid_homework.presentation.view.MainView;
 
@@ -31,6 +31,11 @@ public class MainActivity extends MvpActivity implements MainView {
 
     private List<PostModel> posts;
 
+    @ProvidePresenter
+    MainPresenter provideMainPresenter() {
+        return new MainPresenter();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,19 +49,12 @@ public class MainActivity extends MvpActivity implements MainView {
         mAdapter = new MyAdapter(posts);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-
-        App.getApi().getData().enqueue(new Callback<List<PostModel>>() {
-            @Override
-            public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
-                posts.addAll(response.body());
-                mRecyclerView.getAdapter().notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<PostModel>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                t.printStackTrace();
-            }
-        });
     }
+
+    @Override
+    public void setList(List<PostModel> list) {
+        posts.addAll(list);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
 }

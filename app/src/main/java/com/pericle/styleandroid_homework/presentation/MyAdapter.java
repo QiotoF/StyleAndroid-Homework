@@ -1,21 +1,21 @@
 package com.pericle.styleandroid_homework.presentation;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.pericle.styleandroid_homework.R;
-import com.pericle.styleandroid_homework.data.PostModel;
+import com.pericle.styleandroid_homework.domain.entity.PostModel;
 
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    private static final String LOG_TAG = "fuck";
+    private static final String LOG_TAG = "MyAdapter";
 
     private List<PostModel> posts;
 
@@ -44,6 +44,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         if (i != 0) {
             myViewHolder.tv1.setText(posts.get(i).getTitle());
             myViewHolder.tv2.setText(posts.get(i).getBody());
+            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
 

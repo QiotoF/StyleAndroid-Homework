@@ -1,4 +1,4 @@
-package com.pericle.styleandroid_homework.data;
+package com.pericle.styleandroid_homework.domain.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

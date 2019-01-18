@@ -1,6 +1,6 @@
 package com.pericle.styleandroid_homework.data.api;
 
-import com.pericle.styleandroid_homework.data.PostModel;
+import com.pericle.styleandroid_homework.domain.entity.PostModel;
 
 import java.util.List;
 
