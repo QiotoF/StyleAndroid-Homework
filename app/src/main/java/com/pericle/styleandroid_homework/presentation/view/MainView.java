@@ -11,5 +11,5 @@ import java.util.List;
 public interface MainView extends MvpView {
 
     void setList(List<PostModel> list);
-
+//    void test();
 }

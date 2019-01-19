@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.presentation.presenter.MainPresenter;
@@ -16,10 +15,6 @@ import com.pericle.styleandroid_homework.presentation.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends MvpActivity implements MainView {
 
@@ -43,7 +38,7 @@ public class MainActivity extends MvpActivity implements MainView {
 
         posts = new ArrayList<>();
 
-
+        //mPresenter.test();
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mAdapter = new MyAdapter(posts);
@@ -53,8 +48,17 @@ public class MainActivity extends MvpActivity implements MainView {
 
     @Override
     public void setList(List<PostModel> list) {
-        posts.addAll(list);
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+        //posts = new ArrayList<>();
+        if (list != null) {
+            posts.addAll(list);
+            mRecyclerView.getAdapter().notifyDataSetChanged();
+        }
+        Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
     }
+
+//    @Override
+//    public void test() {
+//        Log.i("vlad", "MainActivity.test");
+//    }
 
 }

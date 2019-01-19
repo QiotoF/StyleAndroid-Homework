@@ -1,9 +1,7 @@
 package com.pericle.styleandroid_homework.domain.repository;
 
-import com.pericle.styleandroid_homework.domain.entity.PostModel;
-
-import java.util.List;
+import com.pericle.styleandroid_homework.presentation.presenter.ICallback;
 
 public interface IRepository {
-    List<PostModel> someFun();
+    void someFun(ICallback iCallback);
 }

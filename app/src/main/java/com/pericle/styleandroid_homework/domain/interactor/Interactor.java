@@ -1,15 +1,20 @@
 package com.pericle.styleandroid_homework.domain.interactor;
 
-import com.pericle.styleandroid_homework.domain.entity.PostModel;
-import com.pericle.styleandroid_homework.domain.repository.IRepository;
-
-import java.util.List;
+import com.pericle.styleandroid_homework.data.repository.Repository;
+import com.pericle.styleandroid_homework.presentation.presenter.ICallback;
 
 public class Interactor {
 
-    IRepository iRepository;
+    Repository repository;
 
-    public List<PostModel> someFun() {
-        return iRepository.someFun();
+    public void someFun(ICallback iCallback) {
+        repository = new Repository();
+//        if (repository.someFun() == null)
+//            Log.i("Repository", "nullInInteractor");
+//        else
+//            Log.i("Repository", "notNullInteractor");
+//        return repository.someFun();
+
+        repository.someFun(iCallback);
     }
 }
