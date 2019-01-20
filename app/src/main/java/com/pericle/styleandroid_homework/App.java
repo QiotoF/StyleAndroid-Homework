@@ -3,21 +3,35 @@ package com.pericle.styleandroid_homework;
 import android.app.Application;
 
 import com.pericle.styleandroid_homework.data.api.NetworkApi;
+import com.pericle.styleandroid_homework.di.AppComponent;
+import com.pericle.styleandroid_homework.di.DaggerAppComponent;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application {
 
     private static NetworkApi networkApi;
     private Retrofit retrofit;
 
+    private static AppComponent appComponent;
+
+    public static AppComponent getAppComponent() {
+        return appComponent;
+    }
+
+    private void configureDagger() {
+        appComponent = DaggerAppComponent
+                .builder()
+                .context(this)
+                .build();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        configureDagger();
+/*
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder client = new OkHttpClient.Builder()
@@ -28,11 +42,11 @@ public class App extends Application {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client.build())
                 .build();
-        networkApi = retrofit.create(NetworkApi.class);
+        networkApi = retrofit.create(NetworkApi.class);*/
     }
 
-    public static NetworkApi getApi() {
-        return networkApi;
-    }
+//    public static NetworkApi getApi() {
+////        return networkApi;
+////    }
 
 }

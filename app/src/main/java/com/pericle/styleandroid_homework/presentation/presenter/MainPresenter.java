@@ -10,19 +10,27 @@ import com.pericle.styleandroid_homework.presentation.view.MainView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> implements IShowPostCallback, INewPostCallback {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-    private PostInteractor postInteractor;
+    @Inject
+    public PostInteractor postInteractor;
     private List<PostModel> list;
+
+    @Inject
+    public MainPresenter(PostInteractor postInteractor) {
+        this.postInteractor = postInteractor;
+    }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        postInteractor = new PostInteractor();
+        //postInteractor = new PostInteractor();
         postInteractor.showPosts(this);
     }
 
