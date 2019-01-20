@@ -18,9 +18,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private static final String LOG_TAG = "MyAdapter";
 
     private List<PostModel> posts;
+    private View.OnClickListener listener;
 
-    public MyAdapter(List<PostModel> posts) {
+    public MyAdapter(List<PostModel> posts, View.OnClickListener listener) {
         this.posts = posts;
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,14 +44,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
         Log.i(LOG_TAG, String.valueOf(i));
         if (i != 0) {
-            myViewHolder.tv1.setText(posts.get(i).getTitle());
-            myViewHolder.tv2.setText(posts.get(i).getBody());
-            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
+            myViewHolder.tv1.setText(posts.get(i - 1).getTitle());
+            myViewHolder.tv2.setText(posts.get(i - 1).getBody());
+        } else {
+            myViewHolder.button.setOnClickListener(listener);
         }
 
 

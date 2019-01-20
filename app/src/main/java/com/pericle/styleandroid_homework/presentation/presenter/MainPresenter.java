@@ -11,7 +11,7 @@ import com.pericle.styleandroid_homework.presentation.view.MainView;
 import java.util.List;
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> implements ICallback {
+public class MainPresenter extends MvpPresenter<MainView> implements ICallback, IPostCallback {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
@@ -38,10 +38,20 @@ public class MainPresenter extends MvpPresenter<MainView> implements ICallback {
 //        getViewState().test();
 //    }
 
+
     @Override
     public void callback(List<PostModel> posts) {
         lista = posts;
         getViewState().setList(lista);
+    }
+
+    public void addPost(String title, String body) {
+        interactor.addPost(title, body, this);
+    }
+
+    @Override
+    public void postCallback(PostModel postModel) {
+        getViewState().addPost(postModel);
     }
 /*
     @Override

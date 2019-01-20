@@ -3,6 +3,10 @@ package com.pericle.styleandroid_homework.presentation;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpActivity;
@@ -16,7 +20,7 @@ import com.pericle.styleandroid_homework.presentation.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends MvpActivity implements MainView {
+public class MainActivity extends MvpActivity implements MainView, View.OnClickListener {
 
     @InjectPresenter
     MainPresenter mPresenter;
@@ -25,6 +29,10 @@ public class MainActivity extends MvpActivity implements MainView {
     private MyAdapter mAdapter;
 
     private List<PostModel> posts;
+
+    private LinearLayout newPostLayout;
+    private EditText titleEditText;
+    private EditText bodyEditText;
 
     @ProvidePresenter
     MainPresenter provideMainPresenter() {
@@ -38,10 +46,12 @@ public class MainActivity extends MvpActivity implements MainView {
 
         posts = new ArrayList<>();
 
-        //mPresenter.test();
+        newPostLayout = findViewById(R.id.newPostLayout);
+        titleEditText = findViewById(R.id.titleEditText);
+        bodyEditText = findViewById(R.id.bodyEditText);
 
         mRecyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new MyAdapter(posts);
+        mAdapter = new MyAdapter(posts, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -54,6 +64,38 @@ public class MainActivity extends MvpActivity implements MainView {
             mRecyclerView.getAdapter().notifyDataSetChanged();
         }
         Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void addPost(PostModel post) {
+        Log.i("vlad.before", posts.get(0).getTitle());
+        posts.add(0, post);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+        Log.i("vlad.after", posts.get(0).getTitle());
+    }
+
+    @Override
+    public void onClick(View view) {
+        mRecyclerView.setVisibility(View.GONE);
+        newPostLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (newPostLayout.getVisibility() == View.VISIBLE) {
+            newPostLayout.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void newPostClick(View view) {
+        String title = titleEditText.getText().toString();
+        String body = bodyEditText.getText().toString();
+        titleEditText.getText().clear();
+        bodyEditText.getText().clear();
+        newPostLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mPresenter.addPost(title, body);
     }
 
 //    @Override

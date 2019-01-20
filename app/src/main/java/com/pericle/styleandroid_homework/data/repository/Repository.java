@@ -6,6 +6,7 @@ import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.domain.repository.IRepository;
 import com.pericle.styleandroid_homework.presentation.presenter.ICallback;
+import com.pericle.styleandroid_homework.presentation.presenter.IPostCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Repository implements IRepository {
 
     List<PostModel> posts;
     ICallback iCallback;
+    IPostCallback mPostCallback;
 
     @Override
     public void someFun(ICallback callback) {
@@ -46,6 +48,30 @@ public class Repository implements IRepository {
         });
 
         //return posts;
+    }
+
+    @Override
+    public void addPost(PostModel postModel, IPostCallback iPostCallback) {
+        mPostCallback = iPostCallback;
+
+        App.getApi().postData(postModel).enqueue(new Callback<PostModel>() {
+            @Override
+            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+                PostModel post = new PostModel();
+                Log.i("vlad", response.body().getTitle());
+                post.setTitle(response.body().getTitle());
+                post.setBody(response.body().getBody());
+//                posts.add(0, post);
+//                iCallback.callback(posts);
+
+                mPostCallback.postCallback(post);
+            }
+
+            @Override
+            public void onFailure(Call<PostModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 
