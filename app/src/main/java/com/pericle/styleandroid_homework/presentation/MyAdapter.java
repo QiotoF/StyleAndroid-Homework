@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
+import com.pericle.styleandroid_homework.presentation.presenter.OnButtonClick;
 
 import java.util.List;
 
@@ -18,11 +19,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private static final String LOG_TAG = "MyAdapter";
 
     private List<PostModel> posts;
-    private View.OnClickListener listener;
+    private OnButtonClick buttonListener;
+    private OnCommentClick postListener;
 
-    public MyAdapter(List<PostModel> posts, View.OnClickListener listener) {
+    public MyAdapter(List<PostModel> posts, OnButtonClick buttonListener, OnCommentClick postListener) {
         this.posts = posts;
-        this.listener = listener;
+        this.buttonListener = buttonListener;
+        this.postListener = postListener;
     }
 
     @NonNull
@@ -40,14 +43,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
         Log.i(LOG_TAG, String.valueOf(i));
         if (i != 0) {
             myViewHolder.tv1.setText(posts.get(i - 1).getTitle());
             myViewHolder.tv2.setText(posts.get(i - 1).getBody());
+            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    postListener.OnCommentClick(i);
+                }
+            });
         } else {
-            myViewHolder.button.setOnClickListener(listener);
+            myViewHolder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    buttonListener.onButtonClick();
+                }
+            });
         }
 
 

@@ -1,5 +1,6 @@
 package com.pericle.styleandroid_homework.presentation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,13 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.presentation.presenter.MainPresenter;
+import com.pericle.styleandroid_homework.presentation.presenter.OnButtonClick;
 import com.pericle.styleandroid_homework.presentation.view.MainView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends MvpActivity implements MainView, View.OnClickListener {
+public class MainActivity extends MvpActivity implements MainView, OnButtonClick, OnCommentClick {
 
     @InjectPresenter
     MainPresenter mPresenter;
@@ -51,7 +53,7 @@ public class MainActivity extends MvpActivity implements MainView, View.OnClickL
         bodyEditText = findViewById(R.id.bodyEditText);
 
         mRecyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new MyAdapter(posts, this);
+        mAdapter = new MyAdapter(posts, this, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -74,11 +76,11 @@ public class MainActivity extends MvpActivity implements MainView, View.OnClickL
         Log.i("vlad.after", posts.get(0).getTitle());
     }
 
-    @Override
-    public void onClick(View view) {
-        mRecyclerView.setVisibility(View.GONE);
-        newPostLayout.setVisibility(View.VISIBLE);
-    }
+//    @Override
+//    public void onClick(View view) {//TODO: replace onClickListener
+//        mRecyclerView.setVisibility(View.GONE);
+//        newPostLayout.setVisibility(View.VISIBLE);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -98,9 +100,16 @@ public class MainActivity extends MvpActivity implements MainView, View.OnClickL
         mPresenter.addPost(title, body);
     }
 
-//    @Override
-//    public void test() {
-//        Log.i("vlad", "MainActivity.test");
-//    }
+    @Override
+    public void OnCommentClick(int postId) {
+        Intent intent = new Intent(MainActivity.this, CommentsActivity.class);
+        intent.putExtra("postId", postId);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onButtonClick() {
+        mRecyclerView.setVisibility(View.GONE);
+        newPostLayout.setVisibility(View.VISIBLE);
+    }
 }

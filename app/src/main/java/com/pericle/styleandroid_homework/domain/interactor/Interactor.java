@@ -10,7 +10,7 @@ public class Interactor {
     Repository repository;
 
     public void someFun(ICallback iCallback) {
-        repository = new Repository();
+        repository = new Repository(); //TODO: make repository initialize int constructor
 //        if (repository.someFun() == null)
 //            Log.i("Repository", "nullInInteractor");
 //        else
