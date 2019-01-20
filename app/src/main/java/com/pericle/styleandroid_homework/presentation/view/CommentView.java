@@ -8,7 +8,7 @@ import com.pericle.styleandroid_homework.domain.entity.CommentModel;
 import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface CommentsView extends MvpView {
+public interface CommentView extends MvpView {
 
     void showComments(List<CommentModel> list);
 

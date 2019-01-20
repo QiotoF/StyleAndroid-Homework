@@ -1,61 +1,43 @@
 package com.pericle.styleandroid_homework.presentation.presenter;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
-import com.pericle.styleandroid_homework.domain.interactor.Interactor;
+import com.pericle.styleandroid_homework.domain.interactor.PostInteractor;
+import com.pericle.styleandroid_homework.presentation.callback.INewPostCallback;
+import com.pericle.styleandroid_homework.presentation.callback.IShowPostCallback;
 import com.pericle.styleandroid_homework.presentation.view.MainView;
 
 import java.util.List;
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> implements ICallback, IPostCallback {
+public class MainPresenter extends MvpPresenter<MainView> implements IShowPostCallback, INewPostCallback {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-    Interactor interactor;
-    List<PostModel> lista;
+    private PostInteractor postInteractor;
+    private List<PostModel> list;
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        Log.i("Repository", "onFirstViewAttach");
 
-        interactor = new Interactor();
-//        if (interactor.someFun() == null)
-//            Log.i("Repository", "nullInPresenter");
-//        else
-//            Log.i("Repository", "notNullPresenter");
-//        getViewState().setList(interactor.someFun());
-
-        interactor.someFun(this);
+        postInteractor = new PostInteractor();
+        postInteractor.showPosts(this);
     }
 
-//    public void test() {
-//        Log.i("vlad", "MainPresenter.test");
-//        getViewState().test();
-//    }
-
-
     @Override
-    public void callback(List<PostModel> posts) {
-        lista = posts;
-        getViewState().setList(lista);
+    public void showPostCallback(List<PostModel> posts) {
+        list = posts;
+        getViewState().setList(list);
     }
 
     public void addPost(String title, String body) {
-        interactor.addPost(title, body, this);
+        postInteractor.addPost(title, body, this);
     }
 
     @Override
-    public void postCallback(PostModel postModel) {
+    public void newPostCallback(PostModel postModel) {
         getViewState().addPost(postModel);
     }
-/*
-    @Override
-    public void callback(List<PostModel> list) {
-        this.list = list;
-    }*/
 }

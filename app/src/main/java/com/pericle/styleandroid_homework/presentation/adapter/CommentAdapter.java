@@ -1,4 +1,4 @@
-package com.pericle.styleandroid_homework.presentation;
+package com.pericle.styleandroid_homework.presentation.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,26 +11,26 @@ import com.pericle.styleandroid_homework.domain.entity.CommentModel;
 
 import java.util.List;
 
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     private List<CommentModel> comments;
 
-    public CommentsAdapter(List<CommentModel> comments) {
+    public CommentAdapter(List<CommentModel> comments) {
         this.comments = comments;
     }
 
     @NonNull
     @Override
-    public CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LinearLayout root = (LinearLayout) LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.comment_view, viewGroup, false);
-        return new CommentsViewHolder(root);
+        return new CommentViewHolder(root);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentsViewHolder commentsViewHolder, int i) {
-        commentsViewHolder.bodyTextView.setText(comments.get(i).getBody());
-        commentsViewHolder.emailTextView.setText(comments.get(i).getEmail());
+    public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
+        commentViewHolder.bodyTextView.setText(comments.get(i).getBody());
+        commentViewHolder.emailTextView.setText(comments.get(i).getEmail());
     }
 
     @Override

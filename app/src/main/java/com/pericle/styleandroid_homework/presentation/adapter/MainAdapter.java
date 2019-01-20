@@ -1,8 +1,7 @@
-package com.pericle.styleandroid_homework.presentation;
+package com.pericle.styleandroid_homework.presentation.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +9,18 @@ import android.widget.LinearLayout;
 
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
-import com.pericle.styleandroid_homework.presentation.presenter.OnButtonClick;
+import com.pericle.styleandroid_homework.presentation.callback.IOnButtonClickCallback;
+import com.pericle.styleandroid_homework.presentation.callback.IOnCommentClickCallback;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-
-    private static final String LOG_TAG = "MyAdapter";
+public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
     private List<PostModel> posts;
-    private OnButtonClick buttonListener;
-    private OnCommentClick postListener;
+    private IOnButtonClickCallback buttonListener;
+    private IOnCommentClickCallback postListener;
 
-    public MyAdapter(List<PostModel> posts, OnButtonClick buttonListener, OnCommentClick postListener) {
+    public MainAdapter(List<PostModel> posts, IOnButtonClickCallback buttonListener, IOnCommentClickCallback postListener) {
         this.posts = posts;
         this.buttonListener = buttonListener;
         this.postListener = postListener;
@@ -30,7 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MainViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LinearLayout root;
         if (i == 1) {
             root = (LinearLayout) LayoutInflater.from(viewGroup.getContext())
@@ -39,24 +37,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
             root = (LinearLayout) LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item_view, viewGroup, false);
         }
-        return new MyViewHolder(root);
+        return new MainViewHolder(root);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-
-        Log.i(LOG_TAG, String.valueOf(i));
+    public void onBindViewHolder(@NonNull MainViewHolder mainViewHolder, final int i) {
         if (i != 0) {
-            myViewHolder.tv1.setText(posts.get(i - 1).getTitle());
-            myViewHolder.tv2.setText(posts.get(i - 1).getBody());
-            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            mainViewHolder.tv1.setText(posts.get(i - 1).getTitle());
+            mainViewHolder.tv2.setText(posts.get(i - 1).getBody());
+            mainViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     postListener.OnCommentClick(i);
                 }
             });
         } else {
-            myViewHolder.button.setOnClickListener(new View.OnClickListener() {
+            mainViewHolder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     buttonListener.onButtonClick();
@@ -69,7 +65,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        Log.i(LOG_TAG, "getItemCount() " + posts.size());
         return posts.size();
     }
 
