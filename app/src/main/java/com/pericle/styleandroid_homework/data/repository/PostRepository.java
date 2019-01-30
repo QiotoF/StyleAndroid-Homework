@@ -2,7 +2,7 @@ package com.pericle.styleandroid_homework.data.repository;
 
 import android.support.annotation.NonNull;
 
-import com.pericle.styleandroid_homework.App;
+import com.pericle.styleandroid_homework.data.api.NetworkApi;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.domain.repository.IPostRepository;
 import com.pericle.styleandroid_homework.presentation.callback.INewPostCallback;
@@ -10,6 +10,8 @@ import com.pericle.styleandroid_homework.presentation.callback.IShowPostCallback
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,11 +23,19 @@ public class PostRepository implements IPostRepository {
     private IShowPostCallback iShowPostCallback;
     private INewPostCallback mPostCallback;
 
+    @Inject
+    NetworkApi networkApi;
+
+    @Inject
+    public PostRepository() {
+
+    }
+
     @Override
     public void showPosts(IShowPostCallback callback) {
         iShowPostCallback = callback;
 
-        App.getApi().getData().enqueue(new Callback<List<PostModel>>() {
+        networkApi.getData().enqueue(new Callback<List<PostModel>>() {
             @Override
             public void onResponse(@NonNull Call<List<PostModel>> call, @NonNull Response<List<PostModel>> response) {
                 posts = response.body();
@@ -44,7 +54,7 @@ public class PostRepository implements IPostRepository {
     public void addPost(PostModel postModel, INewPostCallback iNewPostCallback) {
         mPostCallback = iNewPostCallback;
 
-        App.getApi().postData(postModel).enqueue(new Callback<PostModel>() {
+        networkApi.postData(postModel).enqueue(new Callback<PostModel>() {
             @Override
             public void onResponse(@NonNull Call<PostModel> call, @NonNull Response<PostModel> response) {
                 PostModel post = new PostModel();

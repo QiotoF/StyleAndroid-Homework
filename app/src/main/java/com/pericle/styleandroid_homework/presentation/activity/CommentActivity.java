@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.arellomobile.mvp.MvpActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.CommentModel;
 import com.pericle.styleandroid_homework.presentation.adapter.CommentAdapter;
@@ -16,8 +17,11 @@ import com.pericle.styleandroid_homework.presentation.view.CommentView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class CommentActivity extends MvpActivity implements CommentView {
 
+    @Inject
     @InjectPresenter
     CommentPresenter mPresenter;
 
@@ -27,11 +31,13 @@ public class CommentActivity extends MvpActivity implements CommentView {
 
     @ProvidePresenter
     CommentPresenter provideCommentsPresenter() {
-        return new CommentPresenter();
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        App.getAppComponent().inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 

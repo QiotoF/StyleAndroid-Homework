@@ -5,12 +5,16 @@ import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.presentation.callback.INewPostCallback;
 import com.pericle.styleandroid_homework.presentation.callback.IShowPostCallback;
 
+import javax.inject.Inject;
+
 public class PostInteractor {
 
-    private PostRepository postRepository;
+    @Inject
+    PostRepository postRepository;
 
+    @Inject
     public PostInteractor() {
-        postRepository = new PostRepository();
+        //postRepository = new PostRepository();
     }
 
     public void showPosts(IShowPostCallback iShowPostCallback) {

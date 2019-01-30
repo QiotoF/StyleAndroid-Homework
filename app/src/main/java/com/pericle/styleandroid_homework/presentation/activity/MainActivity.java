@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.arellomobile.mvp.MvpActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.pericle.styleandroid_homework.App;
 import com.pericle.styleandroid_homework.R;
 import com.pericle.styleandroid_homework.domain.entity.PostModel;
 import com.pericle.styleandroid_homework.presentation.adapter.MainAdapter;
@@ -22,8 +23,11 @@ import com.pericle.styleandroid_homework.presentation.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MainActivity extends MvpActivity implements MainView, IOnButtonClickCallback, IOnCommentClickCallback {
 
+    @Inject
     @InjectPresenter
     MainPresenter mPresenter;
 
@@ -38,11 +42,14 @@ public class MainActivity extends MvpActivity implements MainView, IOnButtonClic
 
     @ProvidePresenter
     MainPresenter provideMainPresenter() {
-        return new MainPresenter();
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        App.getAppComponent().inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

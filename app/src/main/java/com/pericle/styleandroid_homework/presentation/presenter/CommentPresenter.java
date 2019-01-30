@@ -9,13 +9,17 @@ import com.pericle.styleandroid_homework.presentation.view.CommentView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 @InjectViewState
 public class CommentPresenter extends MvpPresenter<CommentView> implements IShowCommentsCallback {
 
-    private CommentInteractor mInteractor;
+    @Inject
+    public CommentInteractor mInteractor;
 
+    @Inject
     public CommentPresenter() {
-        mInteractor = new CommentInteractor();
+//        mInteractor = new CommentInteractor();
     }
 
     public void sendRequest(int postId) {
